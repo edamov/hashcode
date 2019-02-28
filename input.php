@@ -1,7 +1,7 @@
 <?php
 
 function parseInput($path) {
-    $f = fopen($path, 'r');
+    $f = fopen('input/' . $path . '.in', 'r');
     if ($f === false) {
         die('Input file doesn\'t exists');
     }
@@ -9,7 +9,7 @@ function parseInput($path) {
     $isFirstLine = true;
     $rows = [];
     $params = [];
-    
+
     while ($line = fgets($f)) {
         if ($isFirstLine) {
             list($params['a'], $params['b'], $params['c'], $params['d']) =
@@ -24,4 +24,8 @@ function parseInput($path) {
         'rows' => $rows,
         'params' => $params,
     ];
+}
+
+function parseLine($line) {
+
 }
