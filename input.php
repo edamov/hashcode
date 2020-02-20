@@ -1,28 +1,48 @@
 <?php
 
 function parseInput($path) {
-    $f = fopen('input/' . $path . '.in', 'r');
+    $f = fopen('input/' . $path . '.txt', 'r');
     if ($f === false) {
         die('Input file doesn\'t exists');
     }
 
     $isFirstLine = true;
-    $rows = [];
+    $isSecondLine = false;
     $params = [];
+    $libraries = [];
+    $scores = [];
 
+    $i = 0;
     while ($line = fgets($f)) {
         if ($isFirstLine) {
-            list($params['a'], $params['b'], $params['c'], $params['d']) =
+            list($params['booksAmount'], $params['librariesAmount'], $params['daysAmount']) =
                 array_map('intval', explode(' ', $line));
             $isFirstLine = false;
+            $isSecondLine = true;
+        } elseif ($isSecondLine) {
+            $scores = explode(' ', $line);
+            $isSecondLine = false;
         } else {
-            $rows[] = trim($line);
+            if ($i % 2 === 0) {
+                list($library['booksAmount'], $library['signupDays'], $library['booksPerDay']) =
+                    array_map('intval', explode(' ', $line));
+
+                if(!$library['booksAmount']) {
+                    break;
+                }
+
+                $libraries[$i]['info'] = $library;
+            } else {
+                $libraries[$i - 1]['books'] = explode(' ', $line);
+            }
         }
+        $i++;
     }
 
     return [
-        'rows' => $rows,
         'params' => $params,
+        'libraries' => $libraries,
+        'scores' => $scores
     ];
 }
 
