@@ -1,9 +1,9 @@
 <?php
 
-$host = '';
-$user = '';
-$password = '';
-$dbname = '';
+$host = 'mysql';
+$user = 'root';
+$password = 'root';
+$dbname = 'default';
 
 $db = new PDO('mysql:host=' . $host . ';dbname= ' . $dbname, $user, $pass);
 
