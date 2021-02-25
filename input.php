@@ -1,31 +1,51 @@
 <?php
 
 function parseInput($path) {
-    $f = fopen('input/' . $path . '.in', 'r');
+    $f = fopen('input/' . $path . '.txt', 'r');
     if ($f === false) {
         die('Input file doesn\'t exists');
     }
 
     $isFirstLine = true;
-    $rows = [];
+    $streets = [];
+    $ways = [];
     $params = [];
+    $i = 0;
 
     while ($line = fgets($f)) {
         if ($isFirstLine) {
-            list($params['a'], $params['b'], $params['c'], $params['d']) =
+            $i = 1;
+            list($params['seconds'], $params['intersections'], $params['streets'], $params['cars'], $params['points']) =
                 array_map('intval', explode(' ', $line));
             $isFirstLine = false;
         } else {
-            $rows[] = trim($line);
+            $line = explode(' ',$line);
+
+            if ($i <= $params['streets']) {
+                $streets[] = [
+                    'start_intersection' => $line[0],
+                    'end_intersection' => $line[1],
+                    'name' => $line[2],
+                    'duration' => $line[3],
+                ];
+                $i++;
+            } else {
+                $startIntersection = $line[0];
+                unset($line[0]);
+
+                $ways[] = [
+                    'start_intersection' => $startIntersection,
+                    'path' => $line,
+                ];
+            }
+
+
         }
     }
 
     return [
-        'rows' => $rows,
+        'streets' => $streets,
+        'ways' => $ways,
         'params' => $params,
     ];
-}
-
-function parseLine($line) {
-
 }

@@ -5,10 +5,12 @@ require_once 'solution.php';
 require_once 'output.php';
 
 $inputTasks = [
-    'a' => 'a_example',
-    'b' => 'b_small',
-    'c' => 'c_medium',
-    'd' => 'd_big',
+    'a' => 'a',
+    'b' => 'b',
+    'c' => 'c',
+    'd' => 'd',
+    'e' => 'e',
+    'f' => 'f',
 ];
 
 if (isset($argv[1]) && array_key_exists($argv[1], $inputTasks)) {
@@ -22,6 +24,9 @@ if (isset($argv[1]) && array_key_exists($argv[1], $inputTasks)) {
  * ['params' => ..., 'rows' => ...]
  */
 $parserResult = parseInput($inputTasks[$currentTask]);
+
+var_dump($parserResult);
+exit;
 
 run($parserResult['params'], $parserResult['rows']);
 
